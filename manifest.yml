@@ -2,22 +2,23 @@ packages:
   __APP_PACKAGE__:
     license: Apache-2.0
     actions:
-      generic:
-        function: actions/generic/index.js
+      todo:
+        function: actions/todo/index.js
         web: 'yes'
         runtime: 'nodejs:12'
         inputs:
           LOG_LEVEL: debug
+          MAX_TODO_ITEMS: 10
         annotations:
           require-adobe-auth: true
           final: true
-      publish-events:
-        function: actions/publish-events/index.js
+      todolist:
+        function: actions/todolist/index.js
         web: 'yes'
         runtime: 'nodejs:12'
         inputs:
           LOG_LEVEL: debug
-          apiKey: $SERVICE_API_KEY
+          MAX_TODO_ITEMS: 10
         annotations:
           require-adobe-auth: true
           final: true
