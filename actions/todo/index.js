@@ -13,6 +13,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const stateLib = require('@adobe/aio-lib-state');
 const { errorResponse, stringParameters, checkMissingRequestInputs } = require('../utils');
+const { MAX_TODO_ITEMS } = require('../../defaults.json');
 
 // main function that will be executed by Adobe I/O Runtime
 async function main(params) {
@@ -36,7 +37,7 @@ async function main(params) {
     }
 
     const state = await stateLib.init();
-    const { operation, todo, MAX_TODO_ITEMS } = params;
+    const { operation, todo } = params;
     let body = {};
 
     switch (operation) {

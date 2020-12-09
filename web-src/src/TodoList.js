@@ -17,13 +17,13 @@ import Close from '@spectrum-icons/workflow/Close';
 import Add from '@spectrum-icons/workflow/Add';
 import PropTypes from 'prop-types';
 import { TodoListItem } from './TodoListItem';
+import { MAX_TODO_ITEMS } from '../../defaults.json';
 
 function TodoList({ todoList, onDelete, onCreate, onUpdate }) {
   const { name, todos } = todoList;
 
   const [newTodo, setNewTodo] = useState('');
   const [todoItems, setTodoItems] = useState(todos);
-  const MAX_TODO_ITEMS = 10;
 
   return (
     <Well width="size-3000">

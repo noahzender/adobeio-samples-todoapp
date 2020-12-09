@@ -8,7 +8,6 @@ packages:
         runtime: 'nodejs:12'
         inputs:
           LOG_LEVEL: debug
-          MAX_TODO_ITEMS: 10
         annotations:
           require-adobe-auth: true
           final: true
@@ -18,7 +17,6 @@ packages:
         runtime: 'nodejs:12'
         inputs:
           LOG_LEVEL: debug
-          MAX_TODO_ITEMS: 10
         annotations:
           require-adobe-auth: true
           final: true
