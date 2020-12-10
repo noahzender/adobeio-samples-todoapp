@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { Flex, Checkbox, TextField } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 
-function TodoListItem({ todo, onUpdate }) {
+function Todo({ name, todo, onUpdate }) {
   const [value, setValue] = useState(todo.value);
   const [isDone, setIsDone] = useState(todo.done);
 
@@ -27,7 +27,7 @@ function TodoListItem({ todo, onUpdate }) {
           todo.done = value;
           setIsDone(value);
 
-          onUpdate && (await onUpdate(todo));
+          onUpdate && (await onUpdate(name, todo));
         }}
         isEmphasized
         value={value}
@@ -41,7 +41,7 @@ function TodoListItem({ todo, onUpdate }) {
           todo.value = value;
           setValue(value);
 
-          onUpdate && (await onUpdate(todo));
+          onUpdate && (await onUpdate(name, todo));
         }}
         isQuiet
       />
@@ -49,9 +49,10 @@ function TodoListItem({ todo, onUpdate }) {
   );
 }
 
-TodoListItem.propTypes = {
+Todo.propTypes = {
+  name: PropTypes.string,
   todo: PropTypes.object,
   onUpdate: PropTypes.func
 };
 
-export { TodoListItem };
+export { Todo };

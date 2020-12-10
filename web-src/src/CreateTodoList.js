@@ -29,7 +29,7 @@ export function CreateTodoList({ onCreate }) {
           onChange={(value) => {
             setTodoListName(value);
           }}
-          label="Todo list name"
+          label="Todo list"
           placeholder="Name"
         />
         <Button type="submit" variant="cta">

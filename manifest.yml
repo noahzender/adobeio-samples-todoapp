@@ -2,15 +2,6 @@ packages:
   __APP_PACKAGE__:
     license: Apache-2.0
     actions:
-      todo:
-        function: actions/todo/index.js
-        web: 'yes'
-        runtime: 'nodejs:12'
-        inputs:
-          LOG_LEVEL: debug
-        annotations:
-          require-adobe-auth: true
-          final: true
       todolist:
         function: actions/todolist/index.js
         web: 'yes'

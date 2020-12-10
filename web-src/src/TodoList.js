@@ -16,10 +16,10 @@ import TaskList from '@spectrum-icons/workflow/TaskList';
 import Close from '@spectrum-icons/workflow/Close';
 import Add from '@spectrum-icons/workflow/Add';
 import PropTypes from 'prop-types';
-import { TodoListItem } from './TodoListItem';
+import { Todo } from './Todo';
 import { MAX_TODO_ITEMS } from '../../defaults.json';
 
-function TodoList({ todoList, onDelete, onCreate, onUpdate }) {
+function TodoList({ todoList, onDelete, onUpdate }) {
   const { name, todos } = todoList;
 
   const [newTodo, setNewTodo] = useState('');
@@ -58,10 +58,11 @@ function TodoList({ todoList, onDelete, onCreate, onUpdate }) {
             setTodoItems([newTodoItem, ...todoItems]);
             setNewTodo('');
 
-            onCreate && (await onCreate(newTodoItem));
+            onUpdate && (await onUpdate(name, newTodoItem));
           }}>
           <Flex gap="size-50">
             <TextField
+              autoComplete="off"
               isDisabled={todoItems.length >= MAX_TODO_ITEMS}
               aria-label="New todo"
               width="100%"
@@ -73,14 +74,14 @@ function TodoList({ todoList, onDelete, onCreate, onUpdate }) {
               minLength={1}
               maxLength={140}
             />
-            <ActionButton type="submit">
+            <ActionButton type="submit" isDisabled={todoItems.length >= MAX_TODO_ITEMS}>
               <Add />
             </ActionButton>
           </Flex>
         </Form>
         <View marginTop="size-100">
           {todoItems.map((todo) => (
-            <TodoListItem key={todo.id} todo={todo} onUpdate={onUpdate} />
+            <Todo key={todo.id} name={name} todo={todo} onUpdate={onUpdate} />
           ))}
         </View>
       </Flex>
@@ -91,7 +92,6 @@ function TodoList({ todoList, onDelete, onCreate, onUpdate }) {
 TodoList.propTypes = {
   todoList: PropTypes.object,
   onDelete: PropTypes.func,
-  onCreate: PropTypes.func,
   onUpdate: PropTypes.func
 };
 

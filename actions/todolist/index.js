@@ -36,71 +36,73 @@ async function main(params) {
       return errorResponse(400, errorMessage, logger);
     }
 
+    const { operation, name, todo } = params;
+    if (operation !== 'read' && !name) {
+      return errorResponse(400, 'Missing "name" parameter', logger);
+    }
+
     const state = await stateLib.init();
-    const { name, operation } = params;
     let body = {};
 
-    const defaultTodoList = async () => {
-      let todoList = await state.get(`todolist`);
-      if (!todoList) {
-        todoList = { value: [] };
-      }
-      return todoList;
-    };
+    let todoList = (await state.get(`todolist`)) || [];
+    if (todoList) {
+      todoList = todoList.value;
+    }
 
     switch (operation) {
-      case 'read':
-        const { value: names } = await defaultTodoList();
-
-        body.todoList = [];
-
-        for (const name of names) {
-          const todo = {
+      case 'create':
+        if (!todoList.find(({ name: todoListName }) => todoListName === name)) {
+          todoList.unshift({
             name,
             todos: []
-          };
+          });
 
-          for (let i = 0; i < MAX_TODO_ITEMS; i++) {
-            const todoItem = await state.get(`todo-${name}-${i}`);
-            if (todoItem) {
-              todo.todos.unshift(todoItem.value);
-            }
-          }
+          await state.put(`todolist`, todoList, { ttl: -1 });
 
-          body.todoList.unshift(todo);
+          body.message = `"${name}" added.`;
+        } else {
+          return errorResponse(400, `"${name}" already exists.`, logger);
         }
-
         break;
-      case 'create':
-        if (name) {
-          const { value: names } = await defaultTodoList();
 
-          if (!names.includes(name)) {
-            names.push(name);
+      case 'read':
+        body.todoList = todoList;
+        break;
 
-            await state.put(`todolist`, names, { ttl: -1 });
+      case 'update':
+        if (todo) {
+          const foundTodoList = todoList.find(({ name: todoListName }) => todoListName === name);
+          if (foundTodoList) {
+            const todoIndex = foundTodoList.todos.findIndex(({ id }) => id === todo.id);
+            if (todoIndex !== -1) {
+              foundTodoList.todos[todoIndex] = todo;
+              body.message = `Todo "${todo.id}" updated in "${name}".`;
 
-            body.message = `${name} added.`;
+              await state.put(`todolist`, todoList, { ttl: -1 });
+            } else {
+              if (foundTodoList.todos.length < MAX_TODO_ITEMS) {
+                foundTodoList.todos.unshift(todo);
+                body.message = `Todo "${todo.id}" added to "${name}".`;
+
+                await state.put(`todolist`, todoList, { ttl: -1 });
+              } else {
+                return errorResponse(400, `Max ${MAX_TODO_ITEMS} todos reached for "${name}".`, logger);
+              }
+            }
           } else {
-            body.message = `${name} already exists.`;
+            return errorResponse(400, `${name} not found.`, logger);
           }
         } else {
-          body.message = `name is empty.`;
+          return errorResponse(400, `Todo is missing.`, logger);
         }
         break;
+
       case 'delete':
-        const todoList = await state.get(`todolist`);
-        if (todoList) {
-          todoList.value = todoList.value.filter((todoListName) => todoListName !== name);
-          await state.put(`todolist`, todoList.value, { ttl: -1 });
-        }
-
-        for (let i = 0; i < MAX_TODO_ITEMS; i++) {
-          await state.delete(`todo-${name}-${i}`);
-        }
-
-        body.message = `${name} todo list deleted.`;
+        const updatedTodoList = todoList.filter(({ name: todoListName }) => todoListName !== name);
+        await state.put(`todolist`, updatedTodoList, { ttl: -1 });
+        body.message = `"${name}" todo list deleted.`;
         break;
+
       default:
         return errorResponse(400, 'CRUD operation not found', logger);
     }

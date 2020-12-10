@@ -38,8 +38,8 @@ function App({ ims }) {
   const [todoList, setTodoList] = useState([]);
 
   // Helper function to communicate with the Runtime actions
-  const action = async (name, operation, body = {}) => {
-    const res = await fetch(actions[name], {
+  const action = async (operation, body = {}) => {
+    const res = await fetch(actions['todolist'], {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,30 +56,27 @@ function App({ ims }) {
   };
 
   const onCreateTodoList = async (name) => {
-    setTodoList([{ name, todos: [] }, ...todoList]);
+    if (!todoList.find(({ name: todoListName }) => name === todoListName)) {
+      setTodoList([{ name, todos: [] }, ...todoList]);
 
-    console.log(await action('todolist', 'create', { name }));
+      console.log(await action('create', { name }));
+    }
   };
 
   const onDeleteTodoList = async (name) => {
     setTodoList(todoList.filter(({ name: toDeleteName }) => name !== toDeleteName));
 
-    console.log(await action('todolist', 'delete', { name }));
+    console.log(await action('delete', { name }));
   };
 
-  const onCreateTodo = async (todo) => {
-    console.log(await action('todo', 'create', { todo }));
-  };
-
-  // Same as onCreateTodo but we leave it to show the distinction between create and update in the code
-  const onUpdateTodo = async (todo) => {
-    console.log(await action('todo', 'update', { todo }));
+  const onUpdateTodoList = async (name, todo) => {
+    console.log(await action('update', { name, todo }));
   };
 
   // Show the loading indicator while fetching the todo lists
   useEffect(() => {
     (async () => {
-      const { todoList } = await action('todolist', 'read');
+      const { todoList } = await action('read');
       if (todoList) {
         setTodoList(todoList);
         setIsLoading(false);
@@ -105,14 +102,8 @@ function App({ ims }) {
                 autoRows="size-6000"
                 justifyContent="center"
                 gap="size-200">
-                {todoList.map((list, index) => (
-                  <TodoList
-                    key={index}
-                    todoList={list}
-                    onDelete={onDeleteTodoList}
-                    onCreate={onCreateTodo}
-                    onUpdate={onUpdateTodo}
-                  />
+                {todoList.map((list) => (
+                  <TodoList key={list.name} todoList={list} onDelete={onDeleteTodoList} onUpdate={onUpdateTodoList} />
                 ))}
               </Grid>
             </>
