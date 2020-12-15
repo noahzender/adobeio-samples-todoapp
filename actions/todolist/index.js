@@ -42,13 +42,13 @@ async function main(params) {
     }
 
     const state = await stateLib.init();
-    let body = {};
 
     let todoList = (await state.get(`todolist`)) || [];
     if (todoList) {
       todoList = todoList.value;
     }
 
+    let body = {};
     switch (operation) {
       case 'create':
         if (!todoList.find(({ name: todoListName }) => todoListName === name)) {
