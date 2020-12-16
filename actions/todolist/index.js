@@ -58,7 +58,7 @@ async function main(params) {
             name,
             todos: []
           });
-          
+
           // Store the new list in the state storage with no expiry time
           await state.put(`todolist`, todoList, { ttl: -1 });
 
@@ -84,14 +84,14 @@ async function main(params) {
               // Update the todo item
               foundTodoList.todos[todoIndex] = todo;
               body.message = `Todo "${todo.id}" updated in "${name}".`;
-              
+
               await state.put(`todolist`, todoList, { ttl: -1 });
             } else {
               // Create a new todo item
               if (foundTodoList.todos.length < MAX_TODO_ITEMS) {
                 foundTodoList.todos.unshift(todo);
                 body.message = `Todo "${todo.id}" added to "${name}".`;
-                
+
                 await state.put(`todolist`, todoList, { ttl: -1 });
               } else {
                 return errorResponse(400, `Max ${MAX_TODO_ITEMS} todos reached for "${name}".`, logger);
@@ -108,9 +108,9 @@ async function main(params) {
       case 'delete':
         // Filter out the todo list to delete by name
         const updatedTodoList = todoList.filter(({ name: todoListName }) => todoListName !== name);
-        
+
         await state.put(`todolist`, updatedTodoList, { ttl: -1 });
-        
+
         body.message = `"${name}" todo list deleted.`;
         break;
 

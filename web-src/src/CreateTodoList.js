@@ -11,9 +11,10 @@
  */
 
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Flex, Form, TextField, Button } from '@adobe/react-spectrum';
 
-export function CreateTodoList({ onCreate }) {
+function CreateTodoList({ onCreate }) {
   const [todoListName, setTodoListName] = useState('');
 
   return (
@@ -39,3 +40,9 @@ export function CreateTodoList({ onCreate }) {
     </Form>
   );
 }
+
+CreateTodoList.propTypes = {
+  onCreate: PropTypes.func
+};
+
+export { CreateTodoList };
