@@ -51,12 +51,15 @@ async function main(params) {
     let body = {};
     switch (operation) {
       case 'create':
+        // Find the todo list by name
         if (!todoList.find(({ name: todoListName }) => todoListName === name)) {
+          // If none found, create an empty list with the given name
           todoList.unshift({
             name,
             todos: []
           });
-
+          
+          // Store the new list in the state storage with no expiry time
           await state.put(`todolist`, todoList, { ttl: -1 });
 
           body.message = `"${name}" added.`;
@@ -66,24 +69,29 @@ async function main(params) {
         break;
 
       case 'read':
+        // Simply return the todo lists
         body.todoList = todoList;
         break;
 
       case 'update':
         if (todo) {
+          // Find the todo list by name
           const foundTodoList = todoList.find(({ name: todoListName }) => todoListName === name);
           if (foundTodoList) {
+            // Find the todo item by id
             const todoIndex = foundTodoList.todos.findIndex(({ id }) => id === todo.id);
             if (todoIndex !== -1) {
+              // Update the todo item
               foundTodoList.todos[todoIndex] = todo;
               body.message = `Todo "${todo.id}" updated in "${name}".`;
-
+              
               await state.put(`todolist`, todoList, { ttl: -1 });
             } else {
+              // Create a new todo item
               if (foundTodoList.todos.length < MAX_TODO_ITEMS) {
                 foundTodoList.todos.unshift(todo);
                 body.message = `Todo "${todo.id}" added to "${name}".`;
-
+                
                 await state.put(`todolist`, todoList, { ttl: -1 });
               } else {
                 return errorResponse(400, `Max ${MAX_TODO_ITEMS} todos reached for "${name}".`, logger);
@@ -98,8 +106,11 @@ async function main(params) {
         break;
 
       case 'delete':
+        // Filter out the todo list to delete by name
         const updatedTodoList = todoList.filter(({ name: todoListName }) => todoListName !== name);
+        
         await state.put(`todolist`, updatedTodoList, { ttl: -1 });
+        
         body.message = `"${name}" todo list deleted.`;
         break;
 
