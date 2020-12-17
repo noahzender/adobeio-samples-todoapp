@@ -14,7 +14,7 @@ import actions from './config.json';
 
 import React, { useState, useEffect } from 'react';
 import ErrorBoundary from 'react-error-boundary';
-import { Provider as RSProvider, defaultTheme, View, Flex, Grid, repeat, ProgressCircle } from '@adobe/react-spectrum';
+import { Provider, defaultTheme, View, Flex, Grid, repeat, ProgressCircle } from '@adobe/react-spectrum';
 import '@spectrum-css/typography';
 import PropTypes from 'prop-types';
 import { CreateTodoList } from './CreateTodoList';
@@ -86,7 +86,7 @@ function App({ ims }) {
 
   return (
     <ErrorBoundary onError={onError} FallbackComponent={fallbackComponent}>
-      <RSProvider theme={defaultTheme} colorScheme={`light`}>
+      <Provider theme={defaultTheme} colorScheme={`light`}>
         <View elementType="main" minHeight="100vh">
           {isLoading ? (
             <Flex alignItems="center" justifyContent="center" height="100vh">
@@ -109,7 +109,7 @@ function App({ ims }) {
             </>
           )}
         </View>
-      </RSProvider>
+      </Provider>
     </ErrorBoundary>
   );
 }
