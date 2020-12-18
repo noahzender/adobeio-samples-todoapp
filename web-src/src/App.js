@@ -15,7 +15,6 @@ import actions from './config.json';
 import React, { useState, useEffect } from 'react';
 import ErrorBoundary from 'react-error-boundary';
 import { Provider, defaultTheme, View, Flex, Grid, repeat, ProgressCircle } from '@adobe/react-spectrum';
-import '@spectrum-css/typography';
 import PropTypes from 'prop-types';
 import { CreateTodoList } from './CreateTodoList';
 import { TodoList } from './TodoList';
