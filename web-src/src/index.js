@@ -67,8 +67,8 @@ function bootstrapInExcShell() {
   // set solution info, shortTitle is used when window is too small to display full title
   runtime.solution = {
     icon: 'AdobeExperienceCloud',
-    title: 'Adobe IO Samples Todo List',
+    title: 'Adobe IO Samples Todo App',
     shortTitle: 'JGR'
   };
-  runtime.title = 'Adobe IO Samples Todo List';
+  runtime.title = 'Adobe IO Samples Todo App';
 }

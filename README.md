@@ -1,4 +1,4 @@
-# adobeio-samples-todolist
+# adobeio-samples-todoapp
 
 Welcome to my Adobe I/O Application!
 
