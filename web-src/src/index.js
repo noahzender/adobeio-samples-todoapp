@@ -17,7 +17,7 @@ import ReactDOM from 'react-dom';
 
 import Runtime, { init } from '@adobe/exc-app';
 
-import App from './App';
+import App from './components/App';
 import './index.css';
 /* Here you can bootstrap your application and configure the integration with the Adobe Experience Cloud Shell */
 try {

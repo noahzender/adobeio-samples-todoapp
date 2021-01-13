@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import actions from './config.json';
+import actions from '../config.json';
 
 import React, { useState, useEffect } from 'react';
 import ErrorBoundary from 'react-error-boundary';

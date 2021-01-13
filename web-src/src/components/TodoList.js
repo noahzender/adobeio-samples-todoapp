@@ -17,7 +17,7 @@ import Close from '@spectrum-icons/workflow/Close';
 import Add from '@spectrum-icons/workflow/Add';
 import PropTypes from 'prop-types';
 import { Todo } from './Todo';
-import { MAX_TODO_ITEMS } from '../../defaults.json';
+import { MAX_TODO_ITEMS } from '../../../defaults.json';
 import '@spectrum-css/typography';
 
 function TodoList({ todoList, onDelete, onUpdate }) {
