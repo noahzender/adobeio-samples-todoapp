@@ -1,6 +1,6 @@
 # adobeio-samples-todoapp
 
-Welcome to my Adobe I/O Application!
+This Firefly app is a complete solution of the codelab [Bulding a Firefly Todo App with aio-lib-state and React Spectrum](https://adobeio-codelabs-react-spectrum-crud-adobedocs.hlx.page/?src=/README.html) which shows you how to use aio-lib-state as part of Runtime actions and how to bind React Spectrum components to Runtime actions.
 
 ## Setup
 
