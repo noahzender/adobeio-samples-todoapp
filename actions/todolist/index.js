@@ -43,9 +43,12 @@ async function main(params) {
 
     const state = await stateLib.init();
 
-    let todoList = (await state.get(`todolist`)) || [];
-    if (todoList) {
+    let todoList = await state.get(`todolist`);
+    if (todoList?.value) {
       todoList = todoList.value;
+    }
+    else {
+      todoList = [];
     }
 
     let body = {};
