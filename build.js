@@ -4,7 +4,9 @@ esbuild
   .build({
     entryPoints: ['web-src/src/index.js'],
     bundle: true,
-    outfile: 'web-src/dist/bundle.js',
+    outdir: 'web-src/dist',
+    outbase: 'web-src/src',
+    entryNames: 'bundle',
     jsx: 'automatic',
     loader: {
       '.css': 'css',
