@@ -13,7 +13,7 @@
 import actions from '../config.json';
 
 import React, { useState, useEffect } from 'react';
-import ErrorBoundary from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Provider, defaultTheme, View, Flex, Grid, repeat, ProgressCircle } from '@adobe/react-spectrum';
 import PropTypes from 'prop-types';
 import { CreateTodoList } from './CreateTodoList';
@@ -32,7 +32,7 @@ function fallbackComponent({ componentStack, error }) {
   );
 }
 
-function App({ ims }) {
+function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [todoList, setTodoList] = useState([]);
 
@@ -41,9 +41,7 @@ function App({ ims }) {
     const res = await fetch(actions['todolist'], {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'x-gw-ims-org-id': ims.org,
-        authorization: `Bearer ${ims.token}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         operation,
@@ -113,8 +111,6 @@ function App({ ims }) {
   );
 }
 
-App.propTypes = {
-  ims: PropTypes.object
-};
+App.propTypes = {};
 
 export default App;
