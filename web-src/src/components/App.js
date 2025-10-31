@@ -15,20 +15,16 @@ import actions from '../config.json';
 import React, { useState, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Provider, defaultTheme, View, Flex, Grid, repeat, ProgressCircle } from '@adobe/react-spectrum';
-import PropTypes from 'prop-types';
 import { CreateTodoList } from './CreateTodoList';
 import { TodoList } from './TodoList';
 
-// error handler on UI rendering failure
-function onError(e, componentStack) {}
-
-// component to show if UI fails rendering
-function fallbackComponent({ componentStack, error }) {
+// Component to show if UI fails rendering
+function ErrorFallback({ error }) {
   return (
-    <>
-      <h1>Error</h1>
-      <pre>{componentStack + '\n' + error.message}</pre>
-    </>
+    <View padding="size-400">
+      <h1 style={{ color: 'red' }}>Something went wrong</h1>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
+    </View>
   );
 }
 
@@ -82,8 +78,8 @@ function App() {
   }, []);
 
   return (
-    <ErrorBoundary onError={onError} FallbackComponent={fallbackComponent}>
-      <Provider theme={defaultTheme} colorScheme={`light`}>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Provider theme={defaultTheme} colorScheme="light">
         <View elementType="main" minHeight="100vh">
           {isLoading ? (
             <Flex alignItems="center" justifyContent="center" height="100vh">
@@ -110,7 +106,5 @@ function App() {
     </ErrorBoundary>
   );
 }
-
-App.propTypes = {};
 
 export default App;
