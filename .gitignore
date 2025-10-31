@@ -26,6 +26,7 @@ junit.xml
 coverage
 .aws.tmp.creds.json
 .wskdebug.props.tmp
+.playwright-mcp
 
 # OSX
 .DS_Store
