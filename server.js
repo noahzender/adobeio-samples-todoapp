@@ -103,8 +103,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'web-src', 'index.html'));
 });
 
-app.listen(port, () => {
-  console.log(`Local Todo server listening at http://localhost:${port}`);
-});
+// Export app for testing
+module.exports = app;
+
+// Only start server if this file is run directly
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`Local Todo server listening at http://localhost:${port}`);
+  });
+}
 
 
