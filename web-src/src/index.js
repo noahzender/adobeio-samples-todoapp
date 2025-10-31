@@ -13,15 +13,13 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './components/App';
 import './index.css';
-/* Always run the application locally without the Adobe Experience Cloud Runtime */
-bootstrapRaw();
 
-function bootstrapRaw() {
-  const rootElement = document.getElementById('root');
-  const root = ReactDOM.createRoot(rootElement);
-  root.render(<App />);
-}
+// Initialize and render the application
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+root.render(<App />);

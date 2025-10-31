@@ -29,7 +29,7 @@
     "test": "jest --passWithNoTests ./test",
     "e2e": "jest --collectCoverage=false --testRegex ./e2e",
     "format": "npx prettier --write '**/*.{js,json}'",
-    "build:web": "node -e \"require('esbuild').build({entryPoints:['web-src/src/index.js'],bundle:true,outfile:'web-src/dist/bundle.js',jsx:'automatic',loader:{'.css':'css','.js':'jsx'}})\"",
+    "build:web": "node build.js",
     "start:server": "node server.js",
     "start": "npm run build:web && npm run start:server"
   },
